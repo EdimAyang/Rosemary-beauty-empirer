@@ -1,11 +1,20 @@
-import { Outlet } from "react-router-dom"
+import CartDrawer from "@/components/CartDrawer";
+import WhatsAppFloat from "@/components/Whatsapp";
+import { Outlet } from "react-router-dom";
+import useScrollToTop from "@/hooks/useScrollToTop";
+import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 
-
-const GlobalLayout = ()=>{
-    return(
-        <>
+const GlobalLayout = () => {
+  useScrollToTop();
+  return (
+    <>
+      <main>
         <Outlet />
-        </>
-    )
-}
-export default GlobalLayout
+      </main>
+      <CartDrawer />
+      <ScrollToTopButton/>
+      <WhatsAppFloat />
+    </>
+  );
+};
+export default GlobalLayout;
