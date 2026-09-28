@@ -1,47 +1,60 @@
 import { useState } from "react";
 import { Menu, ShoppingBag, X } from "lucide-react";
+import { NavLink as RouterNavLink } from "react-router-dom";
 
 import styled from "styled-components";
+import { PATHS } from "@/router/paths";
+import { useCartStore } from "@/store/cartStore";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
+  const itemCount = useCartStore((state) =>
+    state.items.reduce((total, item) => total + item.quantity, 0),
+  );
+
+  const openCart = useCartStore((state) => state.openCart);
+
   return (
     <>
-      {" "}
       <Header>
-        {" "}
-        {/* Logo */}{" "}
         <Logo href="/" onClick={closeMenu}>
-          {" "}
           <LogoText>
-            {" "}
-            Rosemary <span>Beauty Empire</span>{" "}
-          </LogoText>{" "}
-        </Logo>{" "}
-        {/* Desktop Navigation */}{" "}
+            Rosemary <span>Beauty Empire</span>
+          </LogoText>
+        </Logo>
+
+        {/* Desktop Navigation */}
         <Nav>
-          {" "}
-          <NavLink href="/" className="active">
-            {" "}
-            Home{" "}
-          </NavLink>{" "}
-          <NavLink href="#shop"> Shop </NavLink>{" "}
-          <NavLink href="#services"> Services </NavLink>{" "}
-          <NavLink href="#about"> About </NavLink>{" "}
-          <NavLink href="#contact"> Contact </NavLink>{" "}
-        </Nav>{" "}
-        {/* Desktop / Mobile Actions */}{" "}
+          <NavLink to={PATHS.HOME} end>
+            Home
+          </NavLink>
+
+          <NavLink to={PATHS.SHOP}>Shop</NavLink>
+
+          <NavLink to={PATHS.SERVICE}>Services</NavLink>
+
+          <NavLink to="/#about">About</NavLink>
+
+          <NavLink to="/#contact">Contact</NavLink>
+        </Nav>
+
+        {/* Desktop / Mobile Actions */}
         <MobileActions>
-          {" "}
-          <CartButton type="button" aria-label="Shopping cart">
-            {" "}
-            <ShoppingBag size={21} strokeWidth={1.7} />{" "}
-            <CartCount>0</CartCount>{" "}
-          </CartButton>{" "}
-          {/* Mobile menu button */}{" "}
+          <CartButton
+            type="button"
+            aria-label="Shopping cart"
+            onClick={openCart}
+          >
+            <ShoppingBag size={21} strokeWidth={1.7} />
+
+            {itemCount > 0 && <CartCount>{itemCount}</CartCount>}
+          </CartButton>
+
           <MenuButton
             type="button"
             aria-label={
@@ -50,57 +63,55 @@ const Navbar = () => {
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((prev) => !prev)}
           >
-            {" "}
             {isMenuOpen ? (
               <X size={24} strokeWidth={1.6} />
             ) : (
               <Menu size={24} strokeWidth={1.6} />
-            )}{" "}
-          </MenuButton>{" "}
-        </MobileActions>{" "}
-      </Header>{" "}
-      {/* Mobile Navigation */}{" "}
+            )}
+          </MenuButton>
+        </MobileActions>
+      </Header>
+
+      {/* Mobile Navigation */}
       <MobileMenu $isOpen={isMenuOpen}>
-        {" "}
         <MobileMenuHeader>
-          {" "}
-          <span>Menu</span>{" "}
+          <span>Menu</span>
+
           <button
             type="button"
             onClick={closeMenu}
             aria-label="Close navigation menu"
           >
-            {" "}
-            <X size={24} strokeWidth={1.6} />{" "}
-          </button>{" "}
-        </MobileMenuHeader>{" "}
+            <X size={24} strokeWidth={1.6} />
+          </button>
+        </MobileMenuHeader>
+
         <MobileNav>
-          {" "}
-          <MobileNavLink href="/" className="active" onClick={closeMenu}>
-            {" "}
-            Home{" "}
-          </MobileNavLink>{" "}
-          <MobileNavLink href="#shop" onClick={closeMenu}>
-            {" "}
-            Shop{" "}
-          </MobileNavLink>{" "}
-          <MobileNavLink href="#services" onClick={closeMenu}>
-            {" "}
-            Services{" "}
-          </MobileNavLink>{" "}
-          <MobileNavLink href="#about" onClick={closeMenu}>
-            {" "}
-            About{" "}
-          </MobileNavLink>{" "}
-          <MobileNavLink href="#contact" onClick={closeMenu}>
-            {" "}
-            Contact{" "}
-          </MobileNavLink>{" "}
-        </MobileNav>{" "}
-      </MobileMenu>{" "}
+          <MobileNavLink to={PATHS.HOME} end onClick={closeMenu}>
+            Home
+          </MobileNavLink>
+
+          <MobileNavLink to={PATHS.SHOP} onClick={closeMenu}>
+            Shop
+          </MobileNavLink>
+
+          <MobileNavLink to={PATHS.SERVICE} onClick={closeMenu}>
+            Services
+          </MobileNavLink>
+
+          <MobileNavLink to="/#about" onClick={closeMenu}>
+            About
+          </MobileNavLink>
+
+          <MobileNavLink to="/#contact" onClick={closeMenu}>
+            Contact
+          </MobileNavLink>
+        </MobileNav>
+      </MobileMenu>
     </>
   );
 };
+
 export default Navbar;
 
 /* ========================================================= HEADER ========================================================= */ export const Header = styled.header`
@@ -167,23 +178,22 @@ export const LogoText = styled.span`
     display: none;
   }
 `;
-export const NavLink = styled.a`
-  position: relative;
-  color: ${({ theme }) => theme.colors.neutral.white};
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 0.8rem;
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+const NavLink = styled(RouterNavLink)`
+  color: ${({ theme }) => theme.colors.text.inverse};
   text-decoration: none;
-  transition: color ${({ theme }) => theme.transitions.fast};
-  &:hover {
-    color: ${({ theme }) => theme.colors.brand.gold};
-  }
+  transition:
+    color ${({ theme }) => theme.transitions.normal};
+
   &.active {
     color: ${({ theme }) => theme.colors.brand.gold};
   }
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.brand.gold};
+  }
 `;
+
+
 /* ========================================================= RIGHT-SIDE ACTIONS ========================================================= */ export const MobileActions = styled.div`
   justify-self: end;
   display: flex;
@@ -278,7 +288,8 @@ export const CartCount = styled.span`
   transition:
     transform ${({ theme }) => theme.transitions.slow},
     opacity ${({ theme }) => theme.transitions.normal},
-    visibility ${({ $isOpen, theme }) => ($isOpen ? "0ms" : theme.transitions.slow)};
+    visibility
+      ${({ $isOpen, theme }) => ($isOpen ? "0ms" : theme.transitions.slow)};
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: none;
   }
@@ -322,7 +333,7 @@ export const CartCount = styled.span`
   flex-direction: column;
   padding-top: ${({ theme }) => theme.spacing[8]};
 `;
-export const MobileNavLink = styled.a`
+export const MobileNavLink = styled(RouterNavLink)`
   position: relative;
   display: flex;
   align-items: center;

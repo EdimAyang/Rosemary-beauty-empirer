@@ -1,11 +1,85 @@
 import styled from "styled-components";
-import { Button } from "./ui/Button";
-import Navbar from "./Navbar";
-import HottestProducts from "./GlassCard";
+import { Button } from "../ui/Button";
+import Navbar from "../Navbar";
+import HottestProducts from "../GlassCard";
+import { motion } from "framer-motion";
+import { PATHS } from "@/router/paths";
+import { useNavigate } from "react-router-dom";
+
+const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
+
+// const letterAnimation = {
+//   hidden: {
+//     opacity: 0,
+//   },
+
+//   visible: (index: number) => ({
+//     opacity: 1,
+//     transition: {
+//       duration: 0.06,
+//       delay: index * 0.06,
+//       ease: "easeOut",
+//     },
+//   }),
+// };
+
+const AnimatedText = ({
+  text,
+  className,
+  delay = 0,
+  color,
+}: {
+  text: string;
+  className?: string;
+  delay?: number;
+  color?:string;
+}) => {
+  return (
+    <span className={className}>
+      {" "}
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={`${char}-${index}`}
+          custom={index}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: (i: number) => ({
+              opacity: 1,
+              transition: {
+                duration: 0.06,
+                delay: delay + i * 0.06,
+                ease: "easeOut",
+              },
+            }),
+          }}
+          style={{ display: "inline-block" , color:`${color}`}}
+        >
+          {" "}
+          {char === " " ? "\u00A0" : char}{" "}
+        </motion.span>
+      ))}{" "}
+    </span>
+  );
+};
 
 const Hero = () => {
   const heroImage = "/images/hero.jpg";
   const heroVideo = "/rose-video.mp4";
+  const navigate = useNavigate();
 
   return (
     <HeroWrapper>
@@ -24,13 +98,23 @@ const Hero = () => {
       <HeroOverlay />
 
       {/* Hero content */}
-      <HeroContent>
-        <HeroEyebrow>Rosemary Beauty Empire</HeroEyebrow>
+      <HeroContent
+        as={motion.div}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.35 }}
+      >
+        <HeroEyebrow as={motion.p} variants={fadeUp}>
+          Rosemary Beauty Empire
+        </HeroEyebrow>
 
         <HeroTitle>
-          Beauty,
+          <AnimatedText text="Beauty," />
           <br />
-          <span>redefined.</span>
+          <span >
+            {" "}
+            <AnimatedText text="redefined." delay={0.45} color="#ffff"/>{" "}
+          </span>
         </HeroTitle>
 
         {/* <HeroDescription>
@@ -38,10 +122,40 @@ const Hero = () => {
           designed to make you feel confident, beautiful, and unforgettable.
         </HeroDescription> */}
 
-        <HeroActions>
-          <Button $variant="primary">Shop Collection</Button>
+        <HeroActions
+          as={motion.div}
+          variants={{
+            hidden: { opacity: 0, y: 25 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                duration: 0.8,
+                delay: 1.25,
+                ease: [0.22, 1, 0.36, 1] as const,
+              },
+            },
+          }}
+        >
+          <Button
+            $variant="primary"
+            $fullWidth
+            type="button"
+            $size="sm"
+            onClick={() => navigate(PATHS.SHOP)}
+          >
+            Shop Collection
+          </Button>
 
-          <Button $variant="outline">Explore Services</Button>
+          <Button
+            $variant="secondary"
+            $fullWidth
+            type="button"
+            $size="sm"
+            onClick={() => navigate(PATHS.SERVICE)}
+          >
+            Explore Services
+          </Button>
         </HeroActions>
       </HeroContent>
 
@@ -186,6 +300,9 @@ export const HeroWrapper = styled.section`
 /* ========================================================= HERO ACTIONS ========================================================= */ export const HeroActions = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: column;
+  width: 30%;
+  max-width: 40%;
   gap: ${({ theme }) => theme.spacing[4]};
   margin-top: ${({ theme }) => theme.spacing[10]};
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
