@@ -46,7 +46,7 @@ const AnimatedText = ({
   text: string;
   className?: string;
   delay?: number;
-  color?:string;
+  color?: string;
 }) => {
   return (
     <span className={className}>
@@ -66,7 +66,7 @@ const AnimatedText = ({
               },
             }),
           }}
-          style={{ display: "inline-block" , color:`${color}`}}
+          style={{ display: "inline-block", color: `${color}` }}
         >
           {" "}
           {char === " " ? "\u00A0" : char}{" "}
@@ -111,9 +111,9 @@ const Hero = () => {
         <HeroTitle>
           <AnimatedText text="Beauty," />
           <br />
-          <span >
+          <span>
             {" "}
-            <AnimatedText text="redefined." delay={0.45} color="#ffff"/>{" "}
+            <AnimatedText text="redefined." delay={0.45} color="#ffff" />{" "}
           </span>
         </HeroTitle>
 
@@ -172,7 +172,6 @@ export const HeroWrapper = styled.section`
   min-height: 100vh;
   overflow: hidden;
   display: flex;
-  align-items: center;
   background: ${({ theme }) => theme.colors.background.dark};
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     min-height: 90vh;
@@ -212,27 +211,34 @@ export const HeroWrapper = styled.section`
     );
   }
 `;
-/* ========================================================= HERO CONTENT ========================================================= */ export const HeroContent = styled.div`
+
+export const HeroContent = styled.div`
   position: relative;
   z-index: ${({ theme }) => theme.zIndex.base + 1};
   width: 100%;
   max-width: ${({ theme }) => theme.layout.contentWidth};
   margin: 0 auto;
+  margin-top: 2rem;
   padding: ${({ theme }) => theme.spacing[24]}
     ${({ theme }) => theme.spacing[8]} ${({ theme }) => theme.spacing[16]};
   display: flex;
   flex-direction: column;
   align-items: center;
+
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing[20]}
       ${({ theme }) => theme.spacing[6]} ${({ theme }) => theme.spacing[12]};
+    margin-top: 8rem;
   }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: ${({ theme }) => theme.spacing[16]}
       ${({ theme }) => theme.spacing[4]} ${({ theme }) => theme.spacing[10]};
+    margin-top: 8rem;
   }
 `;
-/* ========================================================= EYEBROW ========================================================= */ export const HeroEyebrow = styled.p`
+
+export const HeroEyebrow = styled.p`
   margin: 0 0 ${({ theme }) => theme.spacing[5]};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: ${({ theme }) => theme.fontSizes.sm};
@@ -302,11 +308,13 @@ export const HeroWrapper = styled.section`
   align-items: center;
   flex-direction: column;
   width: 30%;
-  max-width: 40%;
+  max-width: 70%;
   gap: ${({ theme }) => theme.spacing[4]};
   margin-top: ${({ theme }) => theme.spacing[10]};
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     width: 100%;
+     max-width: 70%;
     flex-direction: column;
     align-items: stretch;
     gap: ${({ theme }) => theme.spacing[3]};
