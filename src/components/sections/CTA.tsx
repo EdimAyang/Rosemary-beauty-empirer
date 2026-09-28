@@ -2,9 +2,8 @@ import { motion, type Variants } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import styled from "styled-components";
 import { Button } from "@/components/ui/Button";
-import { Navigate, useNavigate } from "react-router-dom";
 import { PATHS } from "@/router/paths";
-
+import { useNavigate } from "react-router-dom";
 
 
 const luxuryEase = [0.22, 1, 0.36, 1] as const;

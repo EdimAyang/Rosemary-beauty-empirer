@@ -15,7 +15,7 @@ import { useCartStore } from "../../store/cartStore";
 import styled from "styled-components";
 import { Button } from "@/components/ui/Button";
 
-const WHATSAPP_NUMBER = "2348000000000";
+const WHATSAPP_NUMBER = "08121480452";
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("en-NG", {

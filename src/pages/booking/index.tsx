@@ -325,7 +325,7 @@ Thank you.`;
 
     const message = createWhatsAppMessage();
 
-    const whatsappNumber = "2348000000000";
+    const whatsappNumber = "08121480452";
 
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       message,
