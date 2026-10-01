@@ -337,7 +337,7 @@ Thank you.`;
   return (
     <BookingContainer>
       <BookingHeader>
-        <BackButton type="button" onClick={() => navigate("/services")}>
+        <BackButton type="button" onClick={() => navigate(-1)}>
           <ArrowLeft size={17} />
           Back to services
         </BackButton>
@@ -1471,7 +1471,7 @@ export const Notice = styled.div`
   font-size: 10px;
   line-height: 1.6;
 
-  color: ${({ theme }) => theme.colors.text.secondary || "#666"};
+  color: ${({ theme }) => theme.colors.text.inverse || "#666"};
 
   svg {
     flex-shrink: 0;

@@ -1,6 +1,12 @@
+import { PATHS } from "@/router/paths";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const HottestProducts = () => {
+
+  const navigate = useNavigate()
+
+
   return (
     <HotProductsCard>
       {" "}
@@ -11,11 +17,11 @@ const HottestProducts = () => {
           <HotProductsLabel> Trending now </HotProductsLabel>{" "}
           <HotProductsTitle> Hottest Products </HotProductsTitle>{" "}
         </div>{" "}
-        <ProductArrow>↗</ProductArrow>{" "}
+        <ProductArrow onClick={()=>navigate(PATHS.SHOP)}>↗</ProductArrow>{" "}
       </HotProductsHeader>{" "}
       <ProductsList>
         {" "}
-        <ProductItem>
+        <ProductItem onClick={()=>navigate(PATHS.PRODUCT_DETAILS('Radiance Collection'))}>
           {" "}
           <ProductImage
             src="/images/products/product-1.jpg"
@@ -27,7 +33,7 @@ const HottestProducts = () => {
             <ProductPrice> ₦25,000 </ProductPrice>{" "}
           </ProductInfo>{" "}
         </ProductItem>{" "}
-        <ProductItem>
+        <ProductItem onClick={()=>navigate(PATHS.PRODUCT_DETAILS('Radiance Collection'))}>
           {" "}
           <ProductImage
             src="/images/products/product-2.jpg"

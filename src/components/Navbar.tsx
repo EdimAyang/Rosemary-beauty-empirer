@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, ShoppingBag, X } from "lucide-react";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import { NavLink as RouterNavLink, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 import { PATHS } from "@/router/paths";
 import { useCartStore } from "@/store/cartStore";
+import { Button } from "./ui/Button";
+import InstallButton from "./InstallButton";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -19,9 +23,23 @@ const Navbar = () => {
 
   const openCart = useCartStore((state) => state.openCart);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <Header>
+      <Header $isScrolled={isScrolled}>
         <Logo href="/" onClick={closeMenu}>
           <LogoText>
             Rosemary <span>Beauty Empire</span>
@@ -38,22 +56,24 @@ const Navbar = () => {
 
           <NavLink to={PATHS.SERVICE}>Services</NavLink>
 
-          <NavLink to="/#about">About</NavLink>
+          {/* <NavLink to="/#about">About</NavLink>
 
-          <NavLink to="/#contact">Contact</NavLink>
+          <NavLink to="/#contact">Contact</NavLink> */}
         </Nav>
 
         {/* Desktop / Mobile Actions */}
         <MobileActions>
-          <CartButton
-            type="button"
-            aria-label="Shopping cart"
-            onClick={openCart}
-          >
-            <ShoppingBag size={21} strokeWidth={1.7} />
+          <CartButtonWrapper>
+            <CartButton
+              type="button"
+              aria-label="Shopping cart"
+              onClick={openCart}
+            >
+              <ShoppingBag size={21} strokeWidth={1.7} />
 
-            {itemCount > 0 && <CartCount>{itemCount}</CartCount>}
-          </CartButton>
+              {itemCount > 0 && <CartCount>{itemCount}</CartCount>}
+            </CartButton>
+          </CartButtonWrapper>
 
           <MenuButton
             type="button"
@@ -69,6 +89,17 @@ const Navbar = () => {
               <Menu size={24} strokeWidth={1.6} />
             )}
           </MenuButton>
+
+          <ButtonWrapper
+            type="button"
+            $size="md"
+            $variant="primary"
+            children="Booking"
+            $fullWidth
+            onClick={() => navigate(PATHS.BOOKING)}
+          />
+
+          <InstallButton />
         </MobileActions>
       </Header>
 
@@ -99,14 +130,22 @@ const Navbar = () => {
             Services
           </MobileNavLink>
 
-          <MobileNavLink to="/#about" onClick={closeMenu}>
+          {/* <MobileNavLink to="/#about" onClick={closeMenu}>
             About
           </MobileNavLink>
 
           <MobileNavLink to="/#contact" onClick={closeMenu}>
             Contact
-          </MobileNavLink>
+          </MobileNavLink> */}
         </MobileNav>
+        <Button
+          type="button"
+          $size="md"
+          $variant="primary"
+          children="Booking"
+          $fullWidth
+          onClick={() => navigate(PATHS.BOOKING)}
+        />
       </MobileMenu>
     </>
   );
@@ -114,27 +153,59 @@ const Navbar = () => {
 
 export default Navbar;
 
-/* ========================================================= HEADER ========================================================= */ export const Header = styled.header`
-  position: absolute;
+const ButtonWrapper = styled(Button)`
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: none;
+  }
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    display: none;
+  }
+`;
+
+export const Header = styled.header<{ $isScrolled: boolean }>`
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: ${({ theme }) => theme.layout.headerHeight};
   padding: 0 ${({ theme }) => theme.spacing[8]};
+
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
+
   z-index: ${({ theme }) => theme.zIndex.header};
-  background: transparent;
+
+  background: ${({ $isScrolled }) =>
+    $isScrolled ? "rgba(5, 5, 5, 0.72)" : "transparent"};
+
+  backdrop-filter: ${({ $isScrolled }) =>
+    $isScrolled ? "blur(18px)" : "none"};
+
+  -webkit-backdrop-filter: ${({ $isScrolled }) =>
+    $isScrolled ? "blur(18px)" : "none"};
+
+  border-bottom: ${({ $isScrolled }) =>
+    $isScrolled
+      ? "1px solid rgba(255, 255, 255, 0.08)"
+      : "1px solid transparent"};
+
+  transition:
+    background ${({ theme }) => theme.transitions.normal},
+    backdrop-filter ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.normal};
+
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr auto;
     padding: 0 ${({ theme }) => theme.spacing[6]};
   }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     height: 64px;
     padding: 0 ${({ theme }) => theme.spacing[4]};
   }
 `;
+
 /* ========================================================= LOGO ========================================================= */ export const Logo = styled.a`
   justify-self: start;
   display: inline-flex;
@@ -181,8 +252,7 @@ export const LogoText = styled.span`
 const NavLink = styled(RouterNavLink)`
   color: ${({ theme }) => theme.colors.text.inverse};
   text-decoration: none;
-  transition:
-    color ${({ theme }) => theme.transitions.normal};
+  transition: color ${({ theme }) => theme.transitions.normal};
 
   &.active {
     color: ${({ theme }) => theme.colors.brand.gold};
@@ -193,14 +263,21 @@ const NavLink = styled(RouterNavLink)`
   }
 `;
 
-
-/* ========================================================= RIGHT-SIDE ACTIONS ========================================================= */ export const MobileActions = styled.div`
+export const MobileActions = styled.div`
   justify-self: end;
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing[3]};
+  width: 250px;
+  justify-content: flex-end;
 `;
-/* ========================================================= CART ========================================================= */ export const CartButton = styled.button`
+
+const CartButtonWrapper = styled.div`
+  width: 50px;
+  height: 100%;
+`;
+
+export const CartButton = styled.button`
   position: relative;
   width: 42px;
   height: 42px;
@@ -244,7 +321,8 @@ export const CartCount = styled.span`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 1;
 `;
-/* ========================================================= MOBILE MENU BUTTON ========================================================= */ export const MenuButton = styled.button`
+
+export const MenuButton = styled.button`
   display: none;
   width: 42px;
   height: 42px;
@@ -272,7 +350,8 @@ export const CartCount = styled.span`
     display: flex;
   }
 `;
-/* ========================================================= MOBILE MENU ========================================================= */ export const MobileMenu = styled.div<{
+
+export const MobileMenu = styled.div<{
   $isOpen: boolean;
 }>`
   position: fixed;
@@ -290,15 +369,17 @@ export const CartCount = styled.span`
     opacity ${({ theme }) => theme.transitions.normal},
     visibility
       ${({ $isOpen, theme }) => ($isOpen ? "0ms" : theme.transitions.slow)};
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    display: none;
-  }
+
+  // @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+  //   display: none;
+  // }
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: ${({ theme }) => theme.spacing[4]}
       ${({ theme }) => theme.spacing[4]};
   }
 `;
-/* ========================================================= MOBILE MENU HEADER ========================================================= */ export const MobileMenuHeader = styled.div`
+
+export const MobileMenuHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -328,11 +409,14 @@ export const CartCount = styled.span`
     }
   }
 `;
-/* ========================================================= MOBILE NAVIGATION ========================================================= */ export const MobileNav = styled.nav`
+
+export const MobileNav = styled.nav`
   display: flex;
   flex-direction: column;
   padding-top: ${({ theme }) => theme.spacing[8]};
+  margin-bottom: 5rem;
 `;
+
 export const MobileNavLink = styled(RouterNavLink)`
   position: relative;
   display: flex;

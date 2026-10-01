@@ -1,3 +1,7 @@
+import { SOCIAL_LINKS, TELEPHONE } from "@/lib/constants";
+import { InstagramIcon } from "@/lib/icons/instagram";
+import { TiktokIcon } from "@/lib/icons/Tiktok";
+import { PATHS } from "@/router/paths";
 import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import styled from "styled-components";
 const Footer = () => {
@@ -27,9 +31,9 @@ const Footer = () => {
             <ColumnTitle>Explore</ColumnTitle>{" "}
             <FooterLinks>
               {" "}
-              <FooterLink href="#home">Home</FooterLink>{" "}
+              <FooterLink href={PATHS.HOME}>Home</FooterLink>{" "}
               <FooterLink href="#about">About</FooterLink>{" "}
-              <FooterLink href="#services">Services</FooterLink>{" "}
+              <FooterLink href={PATHS.SERVICE}>Services</FooterLink>{" "}
               <FooterLink href="#testimonials">Testimonials</FooterLink>{" "}
             </FooterLinks>{" "}
           </NavigationColumn>{" "}
@@ -38,9 +42,9 @@ const Footer = () => {
             <ColumnTitle>Discover</ColumnTitle>{" "}
             <FooterLinks>
               {" "}
-              <FooterLink href="#products">Shop Collection</FooterLink>{" "}
-              <FooterLink href="#services">Book a Service</FooterLink>{" "}
-              <FooterLink href="#contact">Contact Us</FooterLink>{" "}
+              <FooterLink href={PATHS.SHOP}>Shop Collection</FooterLink>{" "}
+              <FooterLink href={PATHS.BOOKING}>Book a Service</FooterLink>{" "}
+              {/* <FooterLink href="#contact">Contact Us</FooterLink>{" "} */}
             </FooterLinks>{" "}
           </NavigationColumn>{" "}
           <ContactColumn>
@@ -48,13 +52,13 @@ const Footer = () => {
             <ColumnTitle>Connect</ColumnTitle>{" "}
             <ContactLinks>
               {" "}
-              <ContactLink href="tel:+2340000000000">
+              <ContactLink href={TELEPHONE}>
                 {" "}
                 <ContactIcon>
                   {" "}
                   <Phone size={15} strokeWidth={1.5} />{" "}
                 </ContactIcon>{" "}
-                <span>+234 000 000 0000</span>{" "}
+                <span>{TELEPHONE}</span>{" "}
               </ContactLink>{" "}
               <ContactLink href="mailto:hello@rosemarybeautyempire.com">
                 {" "}
@@ -67,13 +71,13 @@ const Footer = () => {
             </ContactLinks>{" "}
             <SocialLinks>
               {" "}
-              <SocialLink href="#instagram" aria-label="Instagram">
+              <SocialLink href={SOCIAL_LINKS.INSTAGRAM} aria-label="Instagram">
                 {" "}
-                {/* <Instagram size={17} strokeWidth={1.5} />{" "} */}
+                <InstagramIcon />
               </SocialLink>{" "}
-              <SocialLink href="#facebook" aria-label="Facebook">
+              <SocialLink href={SOCIAL_LINKS.TIKTOK} aria-label="Tiktok">
                 {" "}
-                {/* <Facebook size={17} strokeWidth={1.5} />{" "} */}
+                <TiktokIcon />
               </SocialLink>{" "}
             </SocialLinks>{" "}
           </ContactColumn>{" "}
@@ -107,10 +111,10 @@ const Footer = () => {
             <BottomLink href="#privacy">Privacy Policy</BottomLink>{" "}
             <BottomLink href="#terms">Terms & Conditions</BottomLink>{" "}
           </BottomLinks>{" "}
-          <BackToTop href="#home" aria-label="Back to top">
+          {/* <BackToTop href="#home" aria-label="Back to top">
             {" "}
             <ArrowUpRight size={17} strokeWidth={1.5} />{" "}
-          </BackToTop>{" "}
+          </BackToTop>{" "} */}
         </FooterBottom>{" "}
       </FooterInner>{" "}
     </FooterWrapper>
@@ -378,33 +382,34 @@ const BottomLink = styled.a`
     color: ${({ theme }) => theme.colors.brand.gold};
   }
 `;
-const BackToTop = styled.a`
-  justify-self: end;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid ${({ theme }) => theme.colors.border.dark};
-  border-radius: ${({ theme }) => theme.radii.pill};
-  color: ${({ theme }) => theme.colors.neutral.white};
-  transition:
-    border-color ${({ theme }) => theme.transitions.normal},
-    background ${({ theme }) => theme.transitions.normal},
-    color ${({ theme }) => theme.transitions.normal};
-  svg {
-    transform: rotate(-45deg);
-  }
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.brand.gold};
-    background: ${({ theme }) => theme.colors.brand.gold};
-    color: ${({ theme }) => theme.colors.brand.black};
-  }
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    align-self: flex-end;
-  }
-`;
+
+// const BackToTop = styled.a`
+//   justify-self: end;
+//   width: 42px;
+//   height: 42px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border: 1px solid ${({ theme }) => theme.colors.border.dark};
+//   border-radius: ${({ theme }) => theme.radii.pill};
+//   color: ${({ theme }) => theme.colors.neutral.white};
+//   transition:
+//     border-color ${({ theme }) => theme.transitions.normal},
+//     background ${({ theme }) => theme.transitions.normal},
+//     color ${({ theme }) => theme.transitions.normal};
+//   svg {
+//     transform: rotate(-45deg);
+//   }
+//   &:hover {
+//     border-color: ${({ theme }) => theme.colors.brand.gold};
+//     background: ${({ theme }) => theme.colors.brand.gold};
+//     color: ${({ theme }) => theme.colors.brand.black};
+//   }
+//   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+//     grid-column: 2;
+//     grid-row: 1;
+//   }
+//   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+//     align-self: flex-end;
+//   }
+// `;

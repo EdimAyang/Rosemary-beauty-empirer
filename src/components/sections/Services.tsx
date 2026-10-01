@@ -4,6 +4,8 @@ import { ArrowUpRight } from "lucide-react";
 import styled from "styled-components";
 import { Button } from "@/components/ui/Button";
 import type { Service } from "@/interface";
+import { PATHS } from "@/router/paths";
+import { useNavigate } from "react-router-dom";
 
 const services: Service[] = [
   {
@@ -39,6 +41,7 @@ const services: Service[] = [
     image: "/images/services/occasion.jpg",
   },
 ];
+
 const luxuryEase = [0.22, 1, 0.36, 1] as const;
 const sectionReveal: Variants = {
   hidden: { opacity: 0, y: 70 },
@@ -48,6 +51,7 @@ const sectionReveal: Variants = {
     transition: { duration: 0.9, ease: luxuryEase },
   },
 };
+
 const headingReveal: Variants = {
   hidden: { opacity: 0, y: 35 },
   visible: {
@@ -56,6 +60,7 @@ const headingReveal: Variants = {
     transition: { duration: 0.8, ease: luxuryEase },
   },
 };
+
 const listReveal: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -69,6 +74,8 @@ const Services = () => {
   const [activeService, setActiveService] = useState(services[0].id);
   const activeItem =
     services.find((service) => service.id === activeService) ?? services[0];
+
+  const navigate = useNavigate();
   return (
     <MotionSection
       initial="hidden"
@@ -157,7 +164,7 @@ const Services = () => {
               {" "}
               <PreviewNumber>{activeItem.number}</PreviewNumber>{" "}
               <PreviewTitle> {activeItem.title} </PreviewTitle>{" "}
-              <PreviewLink href="#contact">
+              <PreviewLink href={PATHS.BOOKING}>
                 {" "}
                 Book a service <ArrowUpRight size={17} strokeWidth={1.5} />{" "}
               </PreviewLink>{" "}
@@ -167,7 +174,11 @@ const Services = () => {
       </ServicesLayout>{" "}
       <BottomAction>
         {" "}
-        <Button $variant="outline">
+        <Button
+          $variant="outline"
+          $size="md"
+          onClick={() => navigate(PATHS.SERVICE)}
+        >
           {" "}
           Explore all services <ArrowUpRight size={17} strokeWidth={1.5} />{" "}
         </Button>{" "}
@@ -176,7 +187,8 @@ const Services = () => {
   );
 };
 export default Services;
-/* ========================================================= SECTION ========================================================= */ const Section = styled.section`
+
+const Section = styled.section`
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -192,7 +204,8 @@ export default Services;
       ${({ theme }) => theme.spacing[4]};
   }
 `;
-/* ========================================================= HEADER ========================================================= */ const SectionHeader = styled.div`
+
+const SectionHeader = styled.div`
   width: 100%;
   max-width: ${({ theme }) => theme.layout.contentWidth};
   margin: 0 auto ${({ theme }) => theme.spacing[16]};

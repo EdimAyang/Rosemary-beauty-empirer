@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { PATHS } from "@/router/paths";
 import { useCartStore } from "@/store/cartStore";
 import { Button } from "@/components/ui/Button";
+import { NotFound } from "../services/serviceDetails";
 
 const products = [
   {
@@ -88,15 +89,26 @@ const ProductDetails = () => {
 
   if (!product) {
     return (
-      <Container>
-        <ProductSection>
+      <>
+        <NotFound>
           <h1>Product not found</h1>
 
-          <button type="button" onClick={() => navigate(PATHS.SHOP)}>
+          <p style={{ marginBottom: "2rem" }}>
+            The product you're looking for doesn't exist.
+          </p>
+
+          <Button
+            type="button"
+            $fullWidth
+            $size="sm"
+            $variant="outline"
+            onClick={() => navigate(PATHS.SHOP)}
+          >
+            <ArrowLeft size={16} />
             Back to shop
-          </button>
-        </ProductSection>
-      </Container>
+          </Button>
+        </NotFound>
+      </>
     );
   }
 
