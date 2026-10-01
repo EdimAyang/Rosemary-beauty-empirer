@@ -1,15 +1,17 @@
+import { WhatsAppIcon } from "@/lib/icons/Whatsapp";
 import { motion } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 
-const WHATSAPP_NUMBER = "2340000000000";
+
 
 const WhatsAppFloat = () => {
   const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
-    setShowMessage(true)
+    setShowMessage(true);
     // const initialTimer = window.setTimeout(() => {
     //   setShowMessage(true);
     // }, 2500);
@@ -98,7 +100,7 @@ const WhatsAppFloat = () => {
             ease: "easeInOut",
           }}
         >
-          <MessageCircle size={23} strokeWidth={1.7} />
+          <WhatsAppIcon />
         </IconWrapper>
       </WhatsAppButton>
     </Wrapper>
@@ -193,6 +195,8 @@ const IconWrapper = styled(motion.span)`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
 `;
 
 const Message = styled(motion.div)`

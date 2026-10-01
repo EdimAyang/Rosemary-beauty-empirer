@@ -174,14 +174,16 @@ export const HeroWrapper = styled.section`
   display: flex;
   background: ${({ theme }) => theme.colors.background.dark};
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    min-height: 90vh;
+    min-height: 100vh;
   }
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    min-height: 150vh;
+    min-height: 100vh;
   }
 `;
 
-/* ========================================================= HERO VIDEO ========================================================= */ export const HeroVideo = styled.video`
+
+
+export const HeroVideo = styled.video`
   position: absolute;
   inset: 0;
   width: 100%;
@@ -191,7 +193,9 @@ export const HeroWrapper = styled.section`
   z-index: ${({ theme }) => theme.zIndex.base - 1};
   pointer-events: none;
 `;
-/* ========================================================= DARK OVERLAY ========================================================= */ export const HeroOverlay = styled.div`
+
+
+export const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
   z-index: ${({ theme }) => theme.zIndex.base};

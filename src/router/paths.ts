@@ -15,5 +15,6 @@ export const PATHS = {
 
   BOOKING: "/booking",
 
-  CHECKOUT:'/checkout'
+  CHECKOUT:'/checkout',
+  
 };
