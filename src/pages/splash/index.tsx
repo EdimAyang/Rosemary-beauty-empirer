@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import { ArrowRight } from "lucide-react";
 
 interface SplashPageProps {
   onComplete?: () => void;
