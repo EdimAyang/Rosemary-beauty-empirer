@@ -40,18 +40,13 @@ const InstallButton = () => {
     }
 
     // Android / Chrome / Edge / supported browsers
-    const handleBeforeInstallPrompt = (
-      event: BeforeInstallPromptEvent
-    ) => {
+    const handleBeforeInstallPrompt = (event: BeforeInstallPromptEvent) => {
       event.preventDefault();
 
       setInstallPrompt(event);
     };
 
-    window.addEventListener(
-      "beforeinstallprompt",
-      handleBeforeInstallPrompt
-    );
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     // Detect installation
     const handleAppInstalled = () => {
@@ -64,19 +59,14 @@ const InstallButton = () => {
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
-        handleBeforeInstallPrompt
+        handleBeforeInstallPrompt,
       );
 
-      window.removeEventListener(
-        "appinstalled",
-        handleAppInstalled
-      );
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
-  const isIOS = /iphone|ipad|ipod/i.test(
-    window.navigator.userAgent
-  );
+  const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 
   const handleInstall = async () => {
     // iOS doesn't support beforeinstallprompt
@@ -117,22 +107,16 @@ const InstallButton = () => {
         onClick={handleInstall}
       >
         <Download size={17} strokeWidth={1.8} />
-
-        <span>Install App</span>
       </InstallButtonElement>
 
       {showIOSMessage && (
-        <IOSOverlay
-          onClick={() => setShowIOSMessage(false)}
-        >
-          <IOSCard
-            onClick={(event) => event.stopPropagation()}
-          >
+        <IOSOverlay onClick={() => setShowIOSMessage(false)}>
+          <IOSCard onClick={(event) => event.stopPropagation()}>
             <IOSTitle>Install RBE</IOSTitle>
 
             <IOSText>
-              Add Rosemary Beauty Empire to your home
-              screen for a faster app-like experience.
+              Add Rosemary Beauty Empire to your home screen for a faster
+              app-like experience.
             </IOSText>
 
             <IOSSteps>
@@ -149,10 +133,7 @@ const InstallButton = () => {
               </li>
             </IOSSteps>
 
-            <CloseButton
-              type="button"
-              onClick={() => setShowIOSMessage(false)}
-            >
+            <CloseButton type="button" onClick={() => setShowIOSMessage(false)}>
               Got it
             </CloseButton>
           </IOSCard>
@@ -164,17 +145,16 @@ const InstallButton = () => {
 
 export default InstallButton;
 
-
 const InstallButtonElement = styled(Button)`
-  gap: ${({ theme }) => theme.spacing[2]};
-
+  width: 45px;
+  height: 45%;
+  border-radius: ${({ theme }) => theme.radii.pill};
   white-space: nowrap;
 
   svg {
     flex-shrink: 0;
 
-    transition:
-      transform ${({ theme }) => theme.transitions.fast};
+    transition: transform ${({ theme }) => theme.transitions.fast};
   }
 
   &:hover svg {
