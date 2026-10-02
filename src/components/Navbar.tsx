@@ -89,7 +89,7 @@ const Navbar = () => {
               <Menu size={24} strokeWidth={1.6} />
             )}
           </MenuButton>
-
+          <InstallButton />
           <ButtonWrapper
             type="button"
             $size="md"
@@ -98,8 +98,6 @@ const Navbar = () => {
             $fullWidth
             onClick={() => navigate(PATHS.BOOKING)}
           />
-
-          <InstallButton />
         </MobileActions>
       </Header>
 

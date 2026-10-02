@@ -31,7 +31,7 @@ const SplashPage = ({ onComplete }: SplashPageProps) => {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <Logo src="/images/logo.png" alt="Rosemary Beauty Empire" />
+          <Logo src="/RBE-logo.jpeg" alt="Rosemary Beauty Empire" />
         </LogoWrapper>
 
         {/* Brand */}
@@ -165,6 +165,7 @@ const Logo = styled.img`
   height: 100%;
 
   object-fit: contain;
+  border-radius: 50%;
 `;
 
 const BrandName = styled(motion.h1)`
